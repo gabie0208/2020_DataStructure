@@ -18,7 +18,7 @@
 			4. Sparse_Matrix Multiply(a, b) ::=
 					if number of columns in a equals number of rows in b
 					return the matrix d produced by multiplying a by
-					b accroing to the formula : d(i, j) =  SUM a(i, k)¡¤b(k, j),
+					b accroing to the formula : d(i, j) =  SUM a(i, k)Â¡Â¤b(k, j),
 					where d(i, j) is the (i, j)th element
 					else return error.
 			
