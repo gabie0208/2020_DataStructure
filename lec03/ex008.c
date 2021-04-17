@@ -55,8 +55,31 @@ int main() {
 
 polynomial polynomial_add(polynomial p1, polynomial p2) {
 
+  polynomial p3;
+  int i, degree;
+
+  if(p1.degree > p2.degree) degree = p1.degree;
+  else degree = p2.degree;
+  
+  p3.degree = degree;
+  for(i=0; i<=p3.degree; i++)
+    p3.coef[i] = p1.coef[i] + p2.coef[i];
+
+  return p3;
 }
 
-void polynomai_print(polynomial p){
+void polynomial_print(polynomial p) {
 
+  int i, first_term = 1;
+  for(i=p.degree; i>=0; i--) {
+    if(p.coef[i] > 0) {
+      if(first_term) {
+        printf("%dx^%d", p.coef[i], i);
+        first_term = 0;
+      } else {
+        printf(" + %dx^%d", p.coef[i], i);
+      }
+    }
+  }
+  printf("\n");
 }
