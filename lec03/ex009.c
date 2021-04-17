@@ -65,52 +65,49 @@ int main() {
 
 }
 
-void polynomial_add(int starta, int finisha, int startb, int finishb, int *startd, int*finishd){
-    /* complete this code */
+void polynomial_add(int starta, int finisha, int startb, int finishb, int *startd, int *finishd) {
+  /* add a(x) and b(x) to obtain d(x) */
+  int coefficient;
+  *startd = avail;
+  while(starta <= finisha && startb <= finishb)
+    switch(COMPARE(terms[starta].expon, terms[startb].expon)) {
+      case -1:
+        attach(terms[startb].coef, terms[startb].expon);
+        startb++;
+        break;
+      case 0:
+        coefficient = terms[starta].coef + terms[startb].coef;
+        if(coefficient) attach(coefficient, terms[starta].expon);
+        starta++; startb++;
+        break;
+      case 1:
+        attach(terms[starta].coef, terms[starta].expon);
+        starta++;
+    }
+  /* add in remaining terms of a(x) */
+  for( ; starta <= finisha; starta++)
+    attach(terms[starta].coef, terms[starta].expon);
+  /* add in remaining terms of b(x) */
+  for( ; startb <= finishb; startb++)
+    attach(terms[startb].coef, terms[startb].expon);
+  *finishd = avail-1;
 }
 
-void attach (int coefficient, int exponent) {
-    /* add a new term to the polynomial */
-    if(avail >= MAX_TERMS){
-        fprintf(stderr, "too many terms in the polynomial");
-        exit(1);
-    }
-    terms[avail].coef = coefficient;
-    terms[avail].expon = exponent;
+void attach(int coefficient, int exponent) {
+  /* add a new term to the polynomial */
+  if(avail >= MAX_TERMS) {
+    fprintf(stderr, "too many terms in the polynomial"); exit(1);
+  }
+  terms[avail].coef = coefficient;
+  terms[avail++].expon = exponent;
 }
 
 void polynomial_print(int starta, int finisha) {
-    int i;
-    for(i=starta; i<=finisha; i++) {
-        if(i == starta) printf("%d*^%d", terms[i].coef, terms[i].expon);
-        else printf(" + %d*^%d", terms[i].coef, terms[i].expon);
-    }
-}
 
-void padd(int starta, int finisha, int startb, int finishb, int *startd, int *finishd) {
-    /* add A(x) and B(x) to obtain D(x) */
-    float coefficient;
-    *startd = avail;
-
-    while(starta <= finisha && startb <= finishb) {
-        switch(COMPARE(terms[starta].expon, terms[startb].expon)) {
-            case -1:
-                attach(terms[startb].coef, terms[startb].expon);
-                startb++;
-                break;
-            case 0:
-                coefficient = terms[starta].coef + terms[startb].coef;
-                if(coefficient) attach(coefficient, terms[starta].expon);
-                starta++; startb++;
-                break;
-            case 1:
-                attach(terms[startb].coef, terms[starta].expon);
-                starta++;
-        }
-        /* add in remaining terms of A(x) */
-        for( ; starta <= finisha; starta++) attach(terms[starta].coef, terms[starta].expon);
-        /* add in remaining terms of B(x) */
-        for( ; startb <= finishb; startb++) attach(terms[startb].coef, terms[startb].expon);
-        *finishd = avail - 1;
-    }
+  int i;
+  for(i = starta; i <= finisha; i++) {
+    if(i == starta) printf("%dx^%d", terms[i].coef, terms[i].expon);
+    else printf(" + %dx^%d", terms[i].coef, terms[i].expon);
+  }
+  printf("\n");
 }
